@@ -1,14 +1,17 @@
+#!/usr/bin/php
 <?php
 
 try {
     if (PHP_OS != 'Linux') throw new Exception('This script supports only Linux');
     if (file_exists('./adminer.php')) throw new Exception('file adminer.php already exists');
 
-    echo "Downloading last Adminer version... (~400 KB) ";
+    $path = system('pwd');
+    system('clear');
 
-    if (!file_put_contents('./adminer.php', file_get_contents('http://www.adminer.org/latest.php')))
+    echo "Downloading last Adminer version (~400 KB) to " . $path . "/adminer.php... \n";
+
+    if (!file_put_contents($path . '/adminer.php', file_get_contents('http://www.adminer.org/latest.php')))
         throw new Exception('Can`t write file to the disk, try to use sudo');
-
 
     echo "Downloaded! \n \n"
        . "Now you can access Adminer under this URL: \n";
@@ -32,7 +35,7 @@ try {
 
     readline("Press Enter to remove Adminer file and return to the terminal. \n \n");
 
-    if (!unlink('./adminer.php')) throw new Exception("Can`t remove adminer.php");
+    if (!unlink($path . '/adminer.php')) throw new Exception("Can`t remove adminer.php");
 
     echo "Adminer was removed... \n";
 } catch (Exception $e) {
